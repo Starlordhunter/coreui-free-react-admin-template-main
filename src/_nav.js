@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
@@ -300,6 +302,19 @@ const _nav = [
     href: 'https://coreui.io/react/docs/templates/installation/',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
+]
+
+export const adminNav = [
+  {
+    component: CNavItem,
+    name: 'Dashboard',
+    to: '/dashboard',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    badge: {
+      color: 'info',
+      text: 'NEW',
+    },
+  }
 ]
 
 export default _nav

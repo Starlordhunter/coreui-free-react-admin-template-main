@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react'
 import { Link, Navigate} from 'react-router-dom'
@@ -16,7 +17,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
-
+import axios from 'axios'
 
 class Login extends Component{
 
@@ -28,26 +29,44 @@ class Login extends Component{
 
 login = () =>{
     // console.log(this.state.credentials);
-    fetch('http://127.0.0.1:8000/account/log-in/',{
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(this.state.credentials)
-    })
-    .then( data => data.json() )
-    .then(
-        data =>{
-            this.props.userLogin(data.token);
-            // this.props.userRole(data.user.profile.role);
-            if(data.token){
-              this.setState({users: data.user});
-              this.setState(prevState => ({
-              loggedin: !prevState.loggedin
-            }));
-            }
+    // fetch('http://127.0.0.1:8000/account/log-in/',{
+    //     method: 'POST',
+    //     headers: {'Content-Type': 'application/json'},
+    //     body: JSON.stringify(this.state.credentials)
+    // })
+    // .then( data => data.json() )
+    // .then(
+    //     data =>{
+    //         this.props.userLogin(data.token);
+    //         // this.props.userRole(data.user.profile.role);
+    //         if(data.token){
+    //           this.setState({users: data.user});
+    //           this.setState(prevState => ({
+    //           loggedin: !prevState.loggedin
+    //         }));
+    //         }
             
-        }
-    ).catch( error => console.error(error))
-
+    //     }
+    // ).catch( error => console.error(error))
+    let data;
+    axios.post('http://127.0.0.1:8000/account/api/token/',this.state.credentials,
+    { headers: { Authorization:localStorage.getItem('access') }, })
+    .then(res=>{
+      data = res.data;
+      if(res.data.access){
+        this.setState({
+        users: data,
+      });
+      this.setState(prevState => ({
+        loggedin: !prevState.loggedin
+      }));
+      }
+      
+      localStorage.setItem('access',JSON.stringify(res.data.access))
+      localStorage.setItem('refresh',JSON.stringify(res.data.refresh))
+    })
+    .catch(err=>{})
+    
 }
 
 register = () =>{
@@ -73,7 +92,6 @@ inputChanged = event => {
 }
 
 render(){
-  
   if(this.state.loggedin){
     console.log(this.state.users)
     return (
@@ -96,7 +114,7 @@ render(){
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
                       <CFormInput placeholder="Username" autoComplete="username" type='email' name='email'
-                    value={this.state.credentials.username}
+                    value={this.state.credentials.email}
                     onChange={this.inputChanged} />
                     </CInputGroup>
                     <CInputGroup className="mb-4">

@@ -1,6 +1,8 @@
+/* eslint-disable no-undef */
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
+import jwt from 'jwt-decode'
 import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
@@ -13,12 +15,20 @@ import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
-import navigation from '../_nav'
+import navigation, { adminNav } from '../_nav'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  var token = localStorage.getItem('access')
+  var decode = jwt(token)
+  var isAdmin = decode.role
+  var navigate
+  if(isAdmin === 'admin')
+  navigate = adminNav;
+  else
+  navigate = navigation;
 
   return (
     <CSidebar
@@ -35,7 +45,7 @@ const AppSidebar = () => {
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
-          <AppSidebarNav items={navigation} />
+          <AppSidebarNav items={navigate} />
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler
