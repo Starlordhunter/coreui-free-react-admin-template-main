@@ -17,10 +17,10 @@ import {
 import { DocsExample } from 'src/components'
 import axios from 'axios'
 
-class Table extends Component{
+class Teachers extends Component{
 
   state = {
-    principal: []
+    teachers: []
   }
 
   
@@ -29,7 +29,7 @@ class Table extends Component{
     console.log(localStorage.getItem('access'))
     let token = JSON.parse(localStorage.getItem('access')) 
     console.log(token)
-    axios.get('http://127.0.0.1:8000/account/principal/list/',{
+    axios.get('http://127.0.0.1:8000/account/teacher/list/',{
       headers: {
           'Content-Type': 'application/json',
           Authorization: "Bearer "+ token
@@ -38,13 +38,14 @@ class Table extends Component{
   })
   .then(
       res =>{
-          this.setState({principal: res.data});
+          this.setState({teachers: res.data});
           console.log(res.data)
           console.log('date:', res.data[0])
           console.log('Successfully fetch')
       }
 
   ).catch( error => console.error(error))
+  
   }
 
 
@@ -56,7 +57,7 @@ class Table extends Component{
     if(localStorage.getItem('access') === null)
       return (<Navigate to="/login"></Navigate>)
 
-    console.log(this.state.principal)
+    console.log(this.state.teachers)
     return (
       <CRow>
         <CCol xs={12}>
@@ -74,35 +75,19 @@ class Table extends Component{
                   <CTableHead>
                     <CTableRow>
                       <CTableHeaderCell scope="col">#</CTableHeaderCell>
-                      <CTableHeaderCell scope="col">Class</CTableHeaderCell>
-                      <CTableHeaderCell scope="col">Teachers</CTableHeaderCell>
-                      <CTableHeaderCell scope="col">Students</CTableHeaderCell>
+                      <CTableHeaderCell scope="col">Name</CTableHeaderCell>
+                      <CTableHeaderCell scope="col">Address</CTableHeaderCell>
+                      <CTableHeaderCell scope="col">Telephone Number</CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    { this.state.principal.map((prins,i) =>
+                    { this.state.teachers.map((teacher,i) =>
                       <>
                     <CTableRow>
                       <CTableHeaderCell scope="row">{i+1}</CTableHeaderCell>
-                      <CTableDataCell key={i}>{prins.class_name}</CTableDataCell>
-                      <CTableDataCell>
-                      {
-                        prins.teacher_info.map((teach,i) =>
-                        <div key={i}>
-                          {teach.teacher_name}
-                        </div>
-                        )
-                      }
-                      </CTableDataCell>
-                      <CTableDataCell>
-                      {
-                        prins.student_in_classes.map((stud,i) =>
-                        <div key={i}>
-                          {stud.student_name}
-                        </div>
-                        )
-                      }
-                      </CTableDataCell>
+                      <CTableDataCell key={i}>{teacher.teacher_name}</CTableDataCell>
+                      <CTableDataCell>{teacher.teacher_address} </CTableDataCell>
+                      <CTableDataCell>{teacher.teacher_tel_no}</CTableDataCell>
                     </CTableRow>
                       </>
                       )
@@ -1048,4 +1033,4 @@ class Table extends Component{
 
 
 
-export default Table
+export default Teachers

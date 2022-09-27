@@ -17,7 +17,7 @@ import {
 import { DocsExample } from 'src/components'
 import axios from 'axios'
 
-class Table extends Component{
+class Principals extends Component{
 
   state = {
     principal: []
@@ -76,35 +76,50 @@ class Table extends Component{
                       <CTableHeaderCell scope="col">#</CTableHeaderCell>
                       <CTableHeaderCell scope="col">Class</CTableHeaderCell>
                       <CTableHeaderCell scope="col">Teachers</CTableHeaderCell>
-                      <CTableHeaderCell scope="col">Students</CTableHeaderCell>
+                      <CTableHeaderCell scope="col"style={{textAlign: "center"}}>Students</CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
                     { this.state.principal.map((prins,i) =>
-                      <>
-                    <CTableRow>
+                    <CTableRow key={i}>
                       <CTableHeaderCell scope="row">{i+1}</CTableHeaderCell>
                       <CTableDataCell key={i}>{prins.class_name}</CTableDataCell>
                       <CTableDataCell>
-                      {
-                        prins.teacher_info.map((teach,i) =>
-                        <div key={i}>
-                          {teach.teacher_name}
-                        </div>
-                        )
-                      }
+                        {
+                          prins.teacher_info.map((teach,i) =>
+                          <div key={i}>
+                            {teach.teacher_name}
+                          </div>
+                          )
+                        }
                       </CTableDataCell>
-                      <CTableDataCell>
+                      
                       {
                         prins.student_in_classes.map((stud,i) =>
-                        <div key={i}>
-                          {stud.student_name}
-                        </div>
+                          <CTableRow key={i}>
+                            <CTableDataCell >
+                              <ul >
+                              {stud.student_name}
+                              </ul>
+                            </CTableDataCell>
+                          
+                            {stud.subject_taken.map((stud,i) =>
+                              <CTableRow key={i}>
+                                <CTableDataCell >
+                                    {stud.subject_name}
+                                </CTableDataCell>
+                              </CTableRow>
+                            )}
+                      
+                          </CTableRow>
+                        
+                          
                         )
                       }
-                      </CTableDataCell>
-                    </CTableRow>
-                      </>
+                    </CTableRow> 
+                      
+                    
+                      
                       )
                     }
                     {/* <CTableRow>
@@ -1048,4 +1063,4 @@ class Table extends Component{
 
 
 
-export default Table
+export default Principals

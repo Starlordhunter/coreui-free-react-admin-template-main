@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import React from 'react'
+import { Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import jwt from 'jwt-decode'
@@ -15,20 +17,33 @@ import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
-import navigation, { adminNav } from '../_nav'
+import navigation, { AdminNav,PrincpalNav,TeacherNav } from '../_nav'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+
+  if(localStorage.getItem('access') === null)
+    return (<Navigate to="/login"></Navigate>)
+  
   var token = localStorage.getItem('access')
   var decode = jwt(token)
-  var isAdmin = decode.role
+  var role = decode.role
   var navigate
-  if(isAdmin === 'admin')
-  navigate = adminNav;
-  else
-  navigate = navigation;
+  console.log(role)
+  if(role === 'admin'){
+    navigate = AdminNav;
+  }else if(role === 'principal'){
+    navigate = PrincpalNav;
+  }else if(role === 'teacher'){
+    navigate = TeacherNav;
+  }
+  else{
+    navigate = navigation
+  }
+    
+  
 
   return (
     <CSidebar

@@ -304,7 +304,7 @@ const _nav = [
   },
 ]
 
-export const adminNav = [
+export const PrincpalNav = [
   {
     component: CNavItem,
     name: 'Dashboard',
@@ -314,7 +314,50 @@ export const adminNav = [
       color: 'info',
       text: 'NEW',
     },
+  },
+  {
+      component: CNavItem,
+      name: 'Principal Table',
+      to: '/base/tables/principals',
   }
+]
+
+export const AdminNav = [
+  {
+    component: CNavItem,
+    name: 'Dashboard',
+    to: '/dashboard',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    badge: {
+      color: 'info',
+      text: 'NEW',
+    },
+  },
+  {
+      component: CNavItem,
+      name: 'Principal Table',
+      to: '/base/tables/principals',
+  }
+  
+]
+
+export const TeacherNav = [
+  {
+    component: CNavItem,
+    name: 'Dashboard',
+    to: '/dashboard',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    badge: {
+      color: 'info',
+      text: 'NEW',
+    },
+  },
+  {
+      component: CNavItem,
+      name: 'Student Table',
+      to: '/base/tables/students',
+  }
+  
 ]
 
 export default _nav

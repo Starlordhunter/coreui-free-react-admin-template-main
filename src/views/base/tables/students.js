@@ -17,10 +17,10 @@ import {
 import { DocsExample } from 'src/components'
 import axios from 'axios'
 
-class Table extends Component{
+class Students extends Component{
 
   state = {
-    principal: []
+    students: []
   }
 
   
@@ -29,7 +29,7 @@ class Table extends Component{
     console.log(localStorage.getItem('access'))
     let token = JSON.parse(localStorage.getItem('access')) 
     console.log(token)
-    axios.get('http://127.0.0.1:8000/account/principal/list/',{
+    axios.get('http://127.0.0.1:8000/account/students/list/',{
       headers: {
           'Content-Type': 'application/json',
           Authorization: "Bearer "+ token
@@ -38,13 +38,14 @@ class Table extends Component{
   })
   .then(
       res =>{
-          this.setState({principal: res.data});
+          this.setState({students: res.data});
           console.log(res.data)
           console.log('date:', res.data[0])
           console.log('Successfully fetch')
       }
 
   ).catch( error => console.error(error))
+  
   }
 
 
@@ -56,7 +57,7 @@ class Table extends Component{
     if(localStorage.getItem('access') === null)
       return (<Navigate to="/login"></Navigate>)
 
-    console.log(this.state.principal)
+    console.log(this.state.students)
     return (
       <CRow>
         <CCol xs={12}>
@@ -70,42 +71,50 @@ class Table extends Component{
                 tables look in CoreUI.
               </p>
               <DocsExample href="components/table">
+                <h3>{ this.state.students.map((student,i) =>
+                    <div key={i}>{student.subject_name}</div>
+                ) }</h3>
                 <CTable>
                   <CTableHead>
                     <CTableRow>
                       <CTableHeaderCell scope="col">#</CTableHeaderCell>
                       <CTableHeaderCell scope="col">Class</CTableHeaderCell>
-                      <CTableHeaderCell scope="col">Teachers</CTableHeaderCell>
-                      <CTableHeaderCell scope="col">Students</CTableHeaderCell>
+                      <CTableHeaderCell scope="col" style={{textAlign: "center"}}>Students</CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    { this.state.principal.map((prins,i) =>
-                      <>
-                    <CTableRow>
-                      <CTableHeaderCell scope="row">{i+1}</CTableHeaderCell>
-                      <CTableDataCell key={i}>{prins.class_name}</CTableDataCell>
-                      <CTableDataCell>
-                      {
-                        prins.teacher_info.map((teach,i) =>
-                        <div key={i}>
-                          {teach.teacher_name}
-                        </div>
+                    { 
+                        this.state.students.slice(1).map((student,i) =>
+                      
+                        <CTableRow key={i}>
+                         <CTableHeaderCell scope="row">{i+1}</CTableHeaderCell>
+                      
+                         <CTableDataCell>{student.class_name} </CTableDataCell>
+                            {
+                                student?.student_in_classes?.map((stud,i) =>
+                                <CTableRow key={i}>
+                                    <CTableDataCell >
+                                    <ul >
+                                    {stud.student_name}
+                                    </ul>
+                                    </CTableDataCell>
+                                
+                                    {stud.subject_taken.map((stud,i) =>
+                                    <CTableRow key={i}>
+                                        <CTableDataCell >
+                                            {stud.subject_name}
+                                        </CTableDataCell>
+                                    </CTableRow>
+                                    )}
+                            
+                                </CTableRow>
+                                
+                                
+                                )
+                            }
+                        </CTableRow>
+                      
                         )
-                      }
-                      </CTableDataCell>
-                      <CTableDataCell>
-                      {
-                        prins.student_in_classes.map((stud,i) =>
-                        <div key={i}>
-                          {stud.student_name}
-                        </div>
-                        )
-                      }
-                      </CTableDataCell>
-                    </CTableRow>
-                      </>
-                      )
                     }
                     {/* <CTableRow>
                       <CTableHeaderCell scope="row">2</CTableHeaderCell>
@@ -1048,4 +1057,4 @@ class Table extends Component{
 
 
 
-export default Table
+export default Students

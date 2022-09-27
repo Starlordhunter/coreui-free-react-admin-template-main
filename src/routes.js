@@ -18,6 +18,9 @@ const Popovers = React.lazy(() => import('./views/base/popovers/Popovers'))
 const Progress = React.lazy(() => import('./views/base/progress/Progress'))
 const Spinners = React.lazy(() => import('./views/base/spinners/Spinners'))
 const Tables = React.lazy(() => import('./views/base/tables/Tables'))
+const PrincipalTable = React.lazy(() => import('./views/base/tables/principals'))
+const TeacherTable = React.lazy(() => import('./views/base/tables/teachers'))
+const StudentTable = React.lazy(() => import('./views/base/tables/students'))
 const Tooltips = React.lazy(() => import('./views/base/tooltips/Tooltips'))
 
 // Buttons
@@ -70,6 +73,9 @@ const routes = [
   { path: '/base/progress', name: 'Progress', element: Progress },
   { path: '/base/spinners', name: 'Spinners', element: Spinners },
   { path: '/base/tables', name: 'Tables', element: Tables },
+  { path: '/base/tables/principals', name: 'principals', element: PrincipalTable },
+  { path: '/base/tables/teachers', name: 'teachers', element: TeacherTable },
+  { path: '/base/tables/students', name: 'teachers', element: StudentTable },
   { path: '/base/tooltips', name: 'Tooltips', element: Tooltips },
   { path: '/buttons', name: 'Buttons', element: Buttons, exact: true },
   { path: '/buttons/buttons', name: 'Buttons', element: Buttons },
