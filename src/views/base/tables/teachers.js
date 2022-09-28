@@ -26,13 +26,13 @@ class Teachers extends Component{
   
 
   componentDidMount(){
-    console.log(localStorage.getItem('access'))
-    let token = JSON.parse(localStorage.getItem('access')) 
+    console.log(localStorage.getItem('authToken'))
+    let token = JSON.parse(localStorage.getItem('authToken')) 
     console.log(token)
     axios.get('http://127.0.0.1:8000/account/teacher/list/',{
       headers: {
           'Content-Type': 'application/json',
-          Authorization: "Bearer "+ token
+          Authorization: "Bearer "+ token.access
       },  
       body: JSON.stringify(this.state.credentials)
   })
@@ -54,7 +54,7 @@ class Teachers extends Component{
 
 
   render(){
-    if(localStorage.getItem('access') === null)
+    if(localStorage.getItem('authToken') === null)
       return (<Navigate to="/login"></Navigate>)
 
     console.log(this.state.teachers)

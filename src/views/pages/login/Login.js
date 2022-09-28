@@ -51,8 +51,10 @@ login = () =>{
     //     }
     // ).catch( error => console.error(error))
     let data;
+    let tok = JSON.parse(localStorage.getItem('authToken'));
+    console.log(tok?.access)
     axios.post('http://127.0.0.1:8000/account/api/token/',this.state.credentials,
-    { headers: { Authorization:localStorage.getItem('access') }, })
+    { headers: { Authorization: tok?.access }, })
     .then(res=>{
       data = res.data;
       if(res.data.access){
@@ -64,8 +66,7 @@ login = () =>{
       }));
       }
       
-      localStorage.setItem('access',JSON.stringify(res.data.access))
-      localStorage.setItem('refresh',JSON.stringify(res.data.refresh))
+      localStorage.setItem('authToken',JSON.stringify(res.data))
     })
     .catch(err=>{})
     

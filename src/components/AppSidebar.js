@@ -24,11 +24,11 @@ const AppSidebar = () => {
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
-  if(localStorage.getItem('access') === null)
+  if(localStorage.getItem('authToken') === null)
     return (<Navigate to="/login"></Navigate>)
   
-  var token = localStorage.getItem('access')
-  var decode = jwt(token)
+  var token = JSON.parse(localStorage.getItem('authToken'));
+  var decode = jwt(token.access)
   var role = decode.role
   var navigate
   console.log(role)
