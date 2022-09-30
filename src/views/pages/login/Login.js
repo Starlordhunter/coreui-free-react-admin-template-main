@@ -52,7 +52,7 @@ login = () =>{
     // ).catch( error => console.error(error))
     let data;
     let tok = JSON.parse(localStorage.getItem('authToken'));
-    console.log(tok?.access)
+    // console.log(tok?.access)
     axios.post('http://127.0.0.1:8000/account/api/token/',this.state.credentials,
     { headers: { Authorization: tok?.access }, })
     .then(res=>{
@@ -60,6 +60,7 @@ login = () =>{
       if(res.data.access){
         this.setState({
         users: data,
+        
       });
       this.setState(prevState => ({
         loggedin: !prevState.loggedin
@@ -118,7 +119,7 @@ render(){
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" type='email' name='email'
+                      <CFormInput placeholder="Email" autoComplete="email" type='email' name='email'
                     value={this.state.credentials.email}
                     onChange={this.inputChanged} />
                     </CInputGroup>
